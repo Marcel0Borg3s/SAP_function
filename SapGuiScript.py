@@ -1,5 +1,7 @@
 import bot
 import os
+# Import Pandas paara manipulação de dados Excel
+import pandas as pd
 
 # Abre o SAP - cod limpo importando a função openSAP
 bot.openSAP()
@@ -11,22 +13,33 @@ connection = "S4H [sapvirtual1.ddns.net]"  # Nome exato da conexão de acesso ao
 
 bot.logonSAP(user, password, connection)
 
-# Chamando a Função de cadastro de fornecedor e criando variáveis para os dados
-nomeEmpresa = "TESTE Empresa v10"
-endRua = "endRua"
-endNumb = "999" 
-endCEP = "13500-123"
-endCidade = "endCidade"
-endPaís = "BR"
-endEstado = "SP"
-languegePT = "PT"
-telFixo = "1932569999"
-telCel = "1989891111"
-email = "contato@e-mail.com"
-bot.cadastrar_fornecedor(nomeEmpresa, endRua, endNumb, endCEP, endCidade, endPaís, endEstado, languegePT, telFixo, telCel, email)
 
+class listaFornecedores():
 
+    # Caminho do arquivo Excel
+    path = r"E:\RPA\BotCity\Projetos\SAPproject2\resources\fornecedores(1).xlsx"
+    
+    def lerDados(self, path, range=None, sheet="Sheet1", head=True):
 
+        # Trazer os dados do Excel
+        df = pd.read_excel(path, sheet_name=sheet, header=0 if head else None)
+        dados = df.values.tolist()  # Converte o DataFrame em uma lista de listas
+        return dados
+    
+    def cadastroFornecedores(self):
+        # Aqui o loop na planilha para cadastrar os fornecedores
+        # Leros dados do Excel
+        dados = self.lerDados(self.path)
 
+        # Percorrer toda planilha e cadastrar os fornecedores
+        for linha in dados:
+            nomeEmpresa, endRua, endNumb, endCEP, endCidade, endPaís, endEstado, languegePT, telFixo, telCel, email = linha
+
+            # Chamando a Função de cadastro de fornecedor 
+            bot.cadastrar_fornecedor(nomeEmpresa, endRua, endNumb, endCEP, endCidade, endPaís, endEstado, languegePT, telFixo, telCel, email)
+
+# Criar a instância e chamar a função
+fornecedores = listaFornecedores()
+fornecedores.cadastroFornecedores()
 
 

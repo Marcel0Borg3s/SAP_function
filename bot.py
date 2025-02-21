@@ -174,6 +174,7 @@ def cadastrar_fornecedor(nomeEmpresa, endRua, endNumb, endCEP, endCidade, endPa√
                         "subA05P01:SAPLBUA0:0400/subADDRESS:SAPLSZA1:0300/subCOUNTRY_SCREEN:SAPLSZA1:0301/"
                         "txtSZA1_D0100-SMTP_ADDR").caretPosition = 22
         session.findById("wnd[0]/tbar[0]/btn[11]").press()
+        session.findById("wnd[0]/tbar[0]/btn[15]").press()
 
     except Exception as e:
         print(f"Erro ao cadastrar fornecedor: {e}")
